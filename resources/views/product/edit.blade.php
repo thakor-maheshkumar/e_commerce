@@ -45,12 +45,19 @@
                                                         <input type="text" id="price" name="price" class="form-control" placeholder="Price" value="{{$product->price}}">
                                                     </div>
                                                     <div class="form-group mb-3">
+                                                        <label for="simpleinput">Quantity</label>
+                                                        <input type="text" id="quantity" name="quantity" class="form-control" placeholder="Price" value="{{$product->quantity}}">
+                                                    </div>
+                                                    <div class="form-group mb-3">
                                                         <label for="simpleinput">Image</label>
                                                         @if("images/{{product->image}}")
                                                         <img src="{{URL::to('/')}}/images/{{$product->image}}" width="80">
                                                         @endif
                                                         <input type="file" name="image"> 
                                                     </div>
+                                                    <select class="form-control" name="status">
+                                                        <option>{{$product->status}}</option>
+                                                    </select>
        												
                                                     <button class="btn btn-success" type="submit" name="submit">Submit</button>
                                                 </form>

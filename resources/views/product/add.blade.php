@@ -54,8 +54,23 @@
                                                         @endif
                                                     </div>
                                                     <div class="form-group mb-3">
+                                                        <label for="simpleinput">Quantity</label>
+                                                        <input type="text" id="quantity" name="quantity" class="form-control" placeholder="quantity">
+                                                        @if($errors->has('quantity'))
+                                                        <div class="alert alert-danger">{{$errors->first('quantity')}}</div>
+                                                        @endif
+                                                    </div>
+                                                    <div class="form-group mb-3">
                                                         <label for="simpleinput">Image</label>
                                                         <input type="file" id="image" name="image" class="form-control">
+                                                    </div>
+                                                    <div class="form-group mb-3">
+                                                        <label for="simpleinput">Status</label>
+                                                        <select class="form-control" name="status">
+                                                            <option>Select Status</option>
+                                                            <option >active</option>
+                                                            <option >inactive</option>
+                                                        </select>
                                                     </div>
        												<button class="btn btn-success">Submit</button>
                                                 </form>

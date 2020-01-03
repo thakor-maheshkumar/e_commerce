@@ -15,7 +15,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes(['verify'=>true]);
+Auth::routes();
 
 ///For Category 
 Route::get('/home', 'HomeController@index')->name('home');
@@ -38,3 +38,7 @@ Route::get('product/delete/{id}','ProductController@delete');
 ////For Users
 Route::get('user/list','UserController@index');
 Route::get('user/dashboard','UserController@dashboard');
+Route::get('productcategory','UserController@productcategory');
+Route::get('show/product/{id}','UserController@showproduct');
+Route::get('cart/product','UserController@cartproduct');
+Route::get('cart/addItem/{id}','UserController@addItem');

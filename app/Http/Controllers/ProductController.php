@@ -27,7 +27,9 @@ class ProductController extends Controller
     	$product->category_id=$request->category_id;
     	$product->pname=$request->pname;
     	$product->price=$request->price;
+        $product->quantity=$request->quantity;
     	$product->image=$new_image;
+        $product->status=$request->status;
     	$product->save();
     	return redirect('product/list')->with('success','product inserted successfully');
     }
@@ -43,6 +45,8 @@ class ProductController extends Controller
     		$productsa->category_id=$request->category_id;
     		$productsa->pname=$request->pname;
     		$productsa->price=$request->price;
+            $productsa->quantity=$request->quantity;
+            $productsa->status=$request->status;
     	if($image=$request->file('image'))
     	{
     		$image=$request->file('image');

@@ -41,7 +41,9 @@
                                                 <th>Category Name</th>
                                                 <th>Product Name</th>
                                                 <th>Price</th>
+                                                <th>Quantity</th>
                                                 <th>Image</th>
+                                                <th>Status</th>
                                                 <th>Action</th>
                                             </tr>
                                             </thead>
@@ -52,9 +54,11 @@
                                                 <td>{{$products->category->name}}</td>
                                                 <td>{{$products->pname}}</td>
                                                 <td>{{$products->price}}</td>
+                                                <td>{{$products->quantity}}</td>
                                                 <td>
                                                     <img src="{{URL::to('/')}}/images/{{$products->image}}" width="80">
                                                 </td>
+                                                <td>{{$products->status}}</td>
                                                 <td>
                                                     <a href='{{url("product/edit/{$products->id}")}}' class="btn btn-success">Edit</a>
                                                     <a href='{{url("product/delete/{$products->id}")}}' class="btn btn-danger">Delete</a>
