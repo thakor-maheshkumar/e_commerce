@@ -11,9 +11,7 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/','UserController@dashboard');
 
 Auth::routes();
 
@@ -40,5 +38,9 @@ Route::get('user/list','UserController@index');
 Route::get('user/dashboard','UserController@dashboard');
 Route::get('productcategory','UserController@productcategory');
 Route::get('show/product/{id}','UserController@showproduct');
-Route::get('cart/product','UserController@cartproduct');
+Route::get('cart/product','UserController@cartitem');
 Route::get('cart/addItem/{id}','UserController@addItem');
+Route::get('cart/remove/{id}','UserController@cartremove');
+Route::get('user/createaddress','UserController@createaddress');
+Route::post('user/storeaddress','UserController@storeaddress');
+Route::get('user/showdetail','UserController@showdetail');

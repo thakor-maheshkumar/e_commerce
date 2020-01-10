@@ -1,30 +1,7 @@
 @extends('front.app')
 @section('title','Cart Page')
 @section('content')
-    <script>
-        $(document).ready(function(){
-            <?php for($i=1;$i<20;$i++){?>
-$('#upCart<?php echo $i;?>').on('change keyup', function(){
-                var newqty = $('#upCart<?php echo $i;?>').val();
-                var rowId = $('#rowId<?php echo $i;?>').val();
-                var proId = $('#proId<?php echo $i;?>').val();
-                if(newqty <=0){ alert('enter only valid qty') }
-                else {
-                    $.ajax({
-                        type: 'get',
-                        dataType: 'html',
-                        url: '<?php echo url('/cart/update');?>/'+proId,
-                        data: "qty=" + newqty + "& rowId=" + rowId + "& proId=" + proId,
-                        success: function (response) {
-                            console.log(response);
-                            $('#updateDiv').html(response);
-                        }
-                    });
-                }
-            });
-            <?php } ?>
-        });
-    </script>
+    
     <?php if ($cartItems->isEmpty()) { ?>
     <br>
     <br>
@@ -43,6 +20,7 @@ $('#upCart<?php echo $i;?>').on('change keyup', function(){
                 <ol class="breadcrumb">
                     <li><a href="{{url('/')}}"></a></li>
                     <li class="active">Shopping Cart</li>
+                    <a href="{{url('/')}}">Home</a>
                 </ol>
             </div>
             <div id="updateDiv">
@@ -72,10 +50,11 @@ $('#upCart<?php echo $i;?>').on('change keyup', function(){
                         </thead>
                         <?php $count =1;?>
                         @foreach($cartItems as $cartItem)
+                        {{ $cartItem->attributes->items }}
                             <tbody>
                             <tr>
                                 <td class="cart_product">
-                                    <p><img src="{{url('images',$cartItem->options->img)}}" class="img-responsive" width="250"></p>
+                                    <img src="{{URL::to('/')}}/images/{{$cartItem->image}}" class="img-responsive" width="250">
                                 </td>
                                 <td class="cart_description">
                                 <!--<a href="{{url('/product_detail')}}/{{$cartItem->id}}">heang</a>
@@ -83,34 +62,85 @@ $('#upCart<?php echo $i;?>').on('change keyup', function(){
                                     <!--</div>-->
                                     <h4><a href="{{url('/product_detail')}}/{{$cartItem->id}}" style="color:blue">{{$cartItem->name}}</a></h4>
                                     <p>Product ID: {{$cartItem->id}}</p>
-                                    <p>Only {{$cartItem->options->stock}} left</p>
+                                    <p>Only  left</p>
                                 </td>
                                 <td class="cart_price">
-                                    <p>${{$cartItem->price}}</p>
+                                    <!--<p>{{$cartItem->price}}</p> -->
+                                    <input type="text" name="" value="{{$cartItem->price}}" class="price" id="price">
                                 </td>
-                                <td class="cart_quantity">
-                                    Form Here
-
+                                <td class="cart_quantity" id="cart_quantity">
+                            <!--<input type="text" name="" value="{{$cartItem->quantity}}" id="ax{{$cartItem->id}}" class="ax" style="border: hidden; width: 17px;">
+                                 <i class="fa fa-plus axy" style="border:1px solid #000;padding: 1px 1px;background-color: white" 
+                                      onclick="addQuantity('ax{{$cartItem->id}}')"></i> 
+                                    <button id="addme" class="addme" onclick="addQuantity('ax{{$cartItem->id}}')">add</button>-->
                                     <!--</div>-->
+                                    <select class="form-control select" id="select{{$cartItem->id}}" data-cart-id="{{$cartItem->id}}" onchange="show_modal('{{$cartItem->id}}')">
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="quantity" id="quantity">quantity</option>
+                                    </select>
+                                    <button id="hi">Hi</button>
                                 </td>
                                 <td class="cart_total">
-                                    <p class="cart_total_price">${{$cartItem->subtotal}}</p>
+                            <input type="text" name="" class="subtotal" id="subtotal{{$cartItem->id}}" value="{{$cartItem->price}}">
                                 </td>
                                 <td class="cart_delete">
                                     <button class="btn btn-primary">
-                                        <a class="cart_quantity_delete" style="background-color:red" href="{{url('/cart/remove')}}/{{$cartItem->rowId}}"><i class="fa fa-times">X</i></a>
+                                        <a class="cart_quantity_delete" style="background-color:red" href='{{url("cart/remove/{$cartItem->id}")}}'><i class="fa fa-times">X</i></a>
                                     </button>
                                 </td>
                             </tr>
                             <?php $count++;?>
                             </tbody>
                         @endforeach
+                        <tfoot>
+                            <tr>
+                                <td><a href="{{url('user/createaddress')}}"><button  style="height: 40px;background-color:red;border: 1px solid;border-radius: 10px"><p style="color: white;margin-bottom: 0px;padding: 5px">Proccesss To Pay <input type="text" name="alltotal" class="alltotal" id="alltotal"style="width: 50px;border: hidden;background-color:red;color: white"></p></td></a></button>
+                            </tr>
+                             
+                        </tfoot>
                     </table>
                 </div>
             </div>
         </div>
-    </section> <!--/#cart_items-->
-    <section id="do_action">
+        <div class="modal" id="myModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+      
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Modal Heading</h4>
+          <button type="button" class="close" data-dismiss="modal" id="ab">&times;</button>
+        </div>
+        
+        <!-- Modal body -->
+        <div class="modal-body">
+
+          <table>
+               <tr>
+                   <th></th>
+                </tr>
+                <tr>
+                   <td><input type="text"  id="quan" name="quan" class="form-control quan"></td>
+
+                </tr>
+          </table>
+        </div>
+        <input type="text" id="cartid" value="" hidden/>
+        
+        <!-- Modal footer -->
+        <div class="modal-footer">
+            <button class="btn btn-success enter">Enter</button>
+          <button type="submit" name="submit" class="btn btn-danger" data-dismiss="modal">Close</button>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+    </section>
+    <!--/#cart_items-->
+ <!--   <section id="do_action">
         <div class="container">
             <div class="heading">
                 <h3>What would you like to do next?</h3>
@@ -170,10 +200,10 @@ $('#upCart<?php echo $i;?>').on('change keyup', function(){
                 <div class="col-sm-6">
                     <div class="total_area">
                         <ul>
-                            <li>Cart Sub Total <span>${{Cart::subtotal()}}</span></li>
-                            <li>Eco Tax <span>${{Cart::tax()}}</span></li>
+                            <li>Cart Sub Total <span>Subtotal</span></li>
+                            <li>Eco Tax <span>TAX</span></li>
                             <li>Shipping Cost <span>Free</span></li>
-                            <li>Total <span>${{Cart::total()}}</span></li>
+                            <li>Total <span>Total</span></li>
                         </ul>
                         <a class="btn btn-default update" href="">Update</a>
                         <a class="btn btn-default check_out" href="{{url('/')}}/checkout">Check Out</a>
@@ -181,6 +211,6 @@ $('#upCart<?php echo $i;?>').on('change keyup', function(){
                 </div>
             </div>
         </div>
-    </section><!--/#do_action-->
+    </section>/#do_action--> 
     <?php } ?>
 @endsection

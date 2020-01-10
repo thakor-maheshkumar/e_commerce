@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\User;
 use App\Product;
 use App\Category;
+use Cart;
+use App\Address;
 //use Gloudemans\Shoppingcart\Facades\Cart;
 class UserController extends Controller
 {
@@ -59,13 +61,55 @@ class UserController extends Controller
     }
     public function cartitem()
     {
-        $data['cartItems']=Cart::content();
+        $data['cartItems']=Cart::getContent();
+       // echo "<pre>";print_r((array)$data);die;
         return view('front.cart',$data);
     }
     public function addItem($id)
     {
         $product=Product::find($id);
-        //Cart::add($id,$product->pname,$product->quantity,$product->price,$product->image);
-        return redirect('cart/product');
+       //Cart::add($id,$product->pname,$product->quantity,$product->price,$product->image);
+        Cart::add(array('id'=>$product->id,
+                        'name'=>$product->pname,
+                        'quantity'=>$product->quantity,
+                        'price'=>$product->price,
+                        'image'=>$product->image));
+        return redirect()->back();
+    }
+    public function cartremove($id)
+    {
+        $data=Cart::remove($id);
+        return redirect()->back();
+    }
+    public function subtotal()
+    {
+        $data['subtotal'] = Cart::getSubTotal();
+        return view('front.app',$data);
+    }
+    public function createaddress()
+    {
+        return view('user.createaddress');
+    }
+    public function storeaddress(Request $request)
+    {
+        $address=new Address();
+        $address->pincode=$request->pincode;
+        $address->name=$request->name;
+        $address->address=$request->address;
+        $address->landcart=$request->landcart;
+        $address->city=$request->city;
+        $address->state=$request->state;
+        $address->mobile=$request->mobile;
+        $address->alternet=$request->alternet;
+        $address->type=$request->type;
+        $address->save();
+        return redirect('user/showdetail');
+    }
+    public function showdetail()
+    {
+        //$data['product']=Product::all();
+        $data['detail']=Address::all();
+        $data['cartItems']=Cart::getContent();
+        return view('user.showdetail',$data);
     }
 }

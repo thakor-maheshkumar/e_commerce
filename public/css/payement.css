@@ -1,0 +1,8 @@
+.payment-mode span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
+    display: inline-block;
+    padding-left: 10px !important;
+}
