@@ -1,6 +1,7 @@
 @extends('master.app')
 @section('content')
 <h2>Category Table</h2>
+@include('notify::messages')
 <div class="container-fluid">
                         <!-- start page title -->
                         <div class="row">
@@ -23,7 +24,7 @@
                             <div class="col-lg-12">
                                 
                                 <div class="card-box">
-                                	<a href="{{url('product/add')}}" class="btn btn-primary">Add Product</a>
+                                	<a href="{{url('user/add')}}" class="btn btn-primary">Add User</a>
                                     <div class="table-responsive">
                                         <table class="table mb-0">
                                             <thead>
@@ -31,6 +32,7 @@
                                                 <th>Id</th>
                                                 <th>User Name</th>
                                                 <th>User Email</th>
+                                                <th>Action </th>
                                                 
                                             </tr>
                                             </thead>
@@ -40,6 +42,10 @@
                                                     <td>{{$users->id}}</td>
                                                     <td>{{$users->name}}</td>
                                                     <td>{{$users->email}}</td>
+                                                    <td>
+                                                        <button class="btn btn-danger delete" 
+                                                        data-id="{{$users->id}}">Delete</button>
+                                                    </td>
                                                 </tr>
                                                 @endforeach
                                             </tbody>

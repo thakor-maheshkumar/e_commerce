@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Category;
 use App\Http\Requests\CategoryRequest;
+use App\Product;
 class CategoryController extends Controller
 {
     public function index()
@@ -43,5 +44,15 @@ class CategoryController extends Controller
         $category=Category::find($id);
         $category->delete();
         return redirect('category/list')->with('danger','category successfully delete');
+    }
+    public function getcategory()
+    {
+        $data=Category::all();
+        return response(json_encode(array('data'=>$data)));
+    }
+    public function getcategorydata(Request $reuest,$id)
+    {
+        $data['product']=Product::where('category_id',$id)->get();
+        return view('front.getcategory',$data);
     }
 }

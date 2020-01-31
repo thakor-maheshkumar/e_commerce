@@ -51,6 +51,8 @@
                         <?php $count =1;?>
                         @foreach($cartItems as $cartItem)
                         {{ $cartItem->attributes->items }}
+                            <form method="post" action="{{url('order/store')}}">
+                                @csrf
                             <tbody>
                             <tr>
                                 <td class="cart_product">
@@ -60,14 +62,14 @@
                                 <!--<a href="{{url('/product_detail')}}/{{$cartItem->id}}">heang</a>
                                             <br>-->
                                     <!--</div>-->
-                                    <h4><a href="{{url('/product_detail')}}/{{$cartItem->id}}" style="color:blue">{{$cartItem->name}}</a></h4>
-                                    <p>Product ID: {{$cartItem->id}}</p>
-                                    <p>Only  left</p>
+                                    <h4><input type="text" name="pname[]" value="{{$cartItem->name}}"></h4>
                                 </td>
-                                <td class="cart_price">
+                                <input type="hidden" name="user_id" id="user_id">
+                                <td class="cart_price"> 
                                     <!--<p>{{$cartItem->price}}</p> -->
-                                    <input type="text" name="" value="{{$cartItem->price}}" class="price" id="price">
+                                    <input type="text" name="price[]" value="{{$cartItem->price}}" class="price" id="price">
                                 </td>
+                                
                                 <td class="cart_quantity" id="cart_quantity">
                             <!--<input type="text" name="" value="{{$cartItem->quantity}}" id="ax{{$cartItem->id}}" class="ax" style="border: hidden; width: 17px;">
                                  <i class="fa fa-plus axy" style="border:1px solid #000;padding: 1px 1px;background-color: white" 
@@ -87,19 +89,34 @@
                                 </td>
                                 <td class="cart_delete">
                                     <button class="btn btn-primary">
-                                        <a class="cart_quantity_delete" style="background-color:red" href='{{url("cart/remove/{$cartItem->id}")}}'><i class="fa fa-times">X</i></a>
+                                        <button class="cart_quantity_delete" style="background-color:red" id="btx" value="{{$cartItem->id}}"><i class="fa fa-times">X</i></button>
                                     </button>
+                                    <button class="btx">Hi</button>
                                 </td>
                             </tr>
                             <?php $count++;?>
+
                             </tbody>
                         @endforeach
-                        <tfoot>
+                        @guest
+                            <tfoot>
+                                <tr><td><input type="text" name="alltotal" class="alltotal" id="alltotal"style="width: 50px;border: hidden;background-color:red;color: white"></td></tr>
                             <tr>
-                                <td><a href="{{url('user/createaddress')}}"><button  style="height: 40px;background-color:red;border: 1px solid;border-radius: 10px"><p style="color: white;margin-bottom: 0px;padding: 5px">Proccesss To Pay <input type="text" name="alltotal" class="alltotal" id="alltotal"style="width: 50px;border: hidden;background-color:red;color: white"></p></td></a></button>
+                                <td><a href="{{url('login')}}" style="height: 40px;background-color:red;border: 1px solid;border-radius: 10px" class="btn btn-success"><p style="color: white;margin-bottom: 0px;padding: 5px">Proccesss To Pay </p></a></td>
                             </tr>
                              
                         </tfoot>
+                        @endguest
+                        @auth
+                        <tfoot>
+                            <tr><td><input type="text" name="alltotal" class="alltotal" id="alltotal"style="width: 50px;border: hidden;background-color:red;color: white"></td></tr>
+                            <tr>
+                                <td><button  style="height: 40px;background-color:red;border: 1px solid;border-radius: 10px"><p style="color: white;margin-bottom: 0px;padding: 5px">Proccesss To Pay </p></td></a></button>
+                            </tr>
+                        </tfoot>
+                        @endauth
+                        <form>
+
                     </table>
                 </div>
             </div>

@@ -1,6 +1,5 @@
 @extends('front.app')
 @section('content')
-
  <div class="row">
 
       <div class="col-lg-3">
@@ -110,7 +109,21 @@
           </div>
           @endforeach 
           @endif
+          <div class="hello" style="margin-left: 600px;display:none">
+            <div class="card" style="width: 280px">
+              <div class="card-body">
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Email address</label>
+                      <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+                      <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                    </div>
+              </form>
+              </div>
+            </div>
           </div>
+          <button class="btn btn-success" id="chat" style="margin-left: 800px;">Chat</button>
+          </div>
+
 
           
 
@@ -122,3 +135,11 @@
 
     </div>
 @endsection
+@push('chat')
+<script type="text/javascript">
+  $(document).on('click','#chat',function(){
+    $('.hello').show();
+    $('#chat').hide();
+  })
+</script>
+@endpush

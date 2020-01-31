@@ -1,0 +1,14 @@
+#collapse{
+	text-align: center;
+	margin-left: 430px;
+}
+.name{
+	margin-left: 50px;
+}
+#countrylist{
+	margin-left: 26px;
+	width: 500px;
+}
+tr td input[type=text]{
+	width: 650px;
+}

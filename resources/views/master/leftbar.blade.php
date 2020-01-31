@@ -36,7 +36,54 @@
                                     <span> USERS </span>
                                 </a>  
                             </li>
-                            
+                            <li>
+                                <a href="{{url('ajaxrequest')}}">
+                                    <i class="fe-users"></i>
+                                    <span> Jquery </span>
+                                </a>  
+                            </li>
+                            <li>
+                                <a href="{{url('validation')}}">
+                                    <i class="fe-users"></i>
+                                    <span> Validation </span>
+                                </a>  
+                            </li>
+                            <li>
+                                <a href="{{url('bookpro')}}">
+                                    <i class="fe-users"></i>
+                                    <span> Book Pro </span>
+                                </a>  
+                            </li>
+                             <li>
+                                <a href="{{url('getdate')}}">
+                                    <i class="fe-users"></i>
+                                    <span> Date </span>
+                                </a>  
+                            </li>
+                            <li>
+                                <a href="{{url('placeorder')}}">
+                                    <i class="fe-users"></i>
+                                    <span> Placeorder </span>
+                                </a>  
+                            </li>
+                            <li>
+                                <a href="{{url('ajax/list')}}">
+                                    <i class="fe-users"></i>
+                                    <span> Ajax Crud </span>
+                                </a>  
+                            </li>
+                            <li>
+                                <a href="{{url('new/list')}}">
+                                    <i class="fe-users"></i>
+                                    <span> New Crud </span>
+                                </a>  
+                            </li>
+                             <li>
+                                <a href="{{url('storedata/view')}}">
+                                    <i class="fe-users"></i>
+                                    <span> Store All Data </span>
+                                </a>  
+                            </li>
                         </ul>
 
                     </div>

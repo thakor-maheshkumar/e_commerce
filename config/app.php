@@ -161,7 +161,8 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
-        Darryldecode\Cart\CartServiceProvider::class
+        Darryldecode\Cart\CartServiceProvider::class,
+        Mckenziearts\Notify\LaravelNotifyServiceProvider::class,
         //Gloudemans\Shoppingcart\ShoppingcartServiceProvider::class
 
 

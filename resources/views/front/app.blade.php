@@ -17,7 +17,43 @@
   <link href="{{asset('asstes')}}/css/shop-homepage.css" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" type="text/css" href="{{asset('css/payement.css')}}">
+<style type="text/css">
+  <style>
+.dropbtn {
+  background-color: #4CAF50;
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+}
 
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {background-color: #ddd;}
+
+.dropdown:hover .dropdown-content {display: block;}
+
+.dropdown:hover .dropbtn {background-color: #3e8e41;}
+</style>
 </head>
 
 <body>
@@ -25,7 +61,34 @@
   <!-- Navigation -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
-      <a class="navbar-brand" href="{{asset('assets')}}/#">Start Bootstrap</a>
+      <a class="navbar-brand" href="{{asset('assets')}}/#">E_commerce</a>
+      <!--<i class="fa fa-bars" aria-hidden="true" style="color: rgb(255,255,255)" id="click"></i>-->
+      <div class="dropdown">
+  <!--<button class="dropbtn">Dropdown</button> -->
+  <i class="fa fa-bars dropbtn" aria-hidden="true" style="color: rgb(255,255,255)"></i>
+  <div class="dropdown-content">
+    @foreach(App\Category::all() as $data)
+   <ul>
+      <a href='{{url("get/categorydata/{$data->id}")}}'><li>{{$data->name}}</li></a>
+   </ul>
+    @endforeach
+  </div>
+</div>
+<div>
+  <ul>
+    <li></li>
+  </ul>
+</div>
+      
+<div class="">
+  <ul class="navbar-nav ml-auto">
+        @foreach(App\Category::all() as $categories)
+          <li class="nav-item">
+            <a class="nav-link" href='{{url("category/record/{$categories->id}")}}'>{{$categories->name}}</a>
+          </li>
+          @endforeach
+        </ul>
+</div>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -82,6 +145,7 @@
       </div>
     </div>
   </nav>
+
   <!-- Page Content -->
   <div class="container">
 
@@ -98,10 +162,34 @@
     </div>
     <!-- /.container -->
   </footer>
+  <div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog" style="margin-right:560px;">
+      <div class="modal-content" style="width:300px;height: 300px;margin-top: 58px">
+        <div class="modal-header">
+          <div class="modal-title">Top Categories</div>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <table>
+               <thead>
+                  <tr>
+                    <th></th>
+                  </tr>
+               </thead>
+               <ul id="tbody">
+                 
+               </ul>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- Bootstrap core JavaScript -->
   <script src="{{asset('asstes')}}/vendor/jquery/jquery.min.js"></script>
   <script src="{{asset('asstes')}}/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  @stack('chat')
   <script type="text/javascript">
   $(document).ready(function(){
     $('#cli').click(function(){
@@ -217,6 +305,69 @@
         $('#myModal').hide('modal');    
       });
     </script>
+    <script type="text/javascript">
+      $(document).on('mouseenter','#click',function(){
+        $('#myModal').modal('show');
+        $.ajax({
+          type:'get',
+          url:'{{url("get/category")}}',
+          dataType:'json',
+
+          success:function(data){
+            console.log(data);
+            var result=data.data;
+            var category='all category';
+            $.each(result,function(key,value){
+              category+='<ul class="list-group">'+'<li class="list-group-item">'+value.name+'</li>'+'</ul>';
+            });
+            $("#tbody").html(category);
+          }
+        });
+      });
+      $(document).on('mouseleave','#myModal',function(){
+        $('#myModal').modal('hide');
+      })
+    </script>
+    <script type="text/javascript">
+      $(document).ready(function(){
+        $('[data-toggle="popover"]').popover();
+      });
+    </script>
+   <script type="text/javascript">
+     $(document).on('click','.cart_quantity_delete',function(){
+      var id=$(this).val();
+      if(id){
+        swal({
+        title: "Are you sure?",
+        text: "Once deleted, you will not be able to recover this imaginary file!",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+        timer:10000
+    })
+    .then((willDelete) => {
+        if (willDelete) {
+          $.ajax({
+          type:"get",
+          url:"{{URL('cart/remove')}}/"+id,
+          data:{id:id},
+          success:function(){
+          swal("Poof! Your imaginary file has been deleted!", {
+          icon: "success",
+          timer:10000,
+          });
+          window.location.reload();
+        }
+        });
+    
+  } else {
+    swal("Your imaginary file is safe!");
+  }
+});
+
+      }
+      });
+   </script>
 </body>
 
 </html>

@@ -8,6 +8,9 @@ use App\Product;
 use App\Category;
 use Cart;
 use App\Address;
+use App\Order;
+use Auth;
+use App\ProductOrder;
 //use Gloudemans\Shoppingcart\Facades\Cart;
 class UserController extends Controller
 {
@@ -61,7 +64,11 @@ class UserController extends Controller
     }
     public function cartitem()
     {
+        //$data['cart']=ProductOrder::with('order')->get();
+        //dd($data);
         $data['cartItems']=Cart::getContent();
+        $data['cart']=Order::all();
+
        // echo "<pre>";print_r((array)$data);die;
         return view('front.cart',$data);
     }
@@ -111,5 +118,47 @@ class UserController extends Controller
         $data['detail']=Address::all();
         $data['cartItems']=Cart::getContent();
         return view('user.showdetail',$data);
+    }
+    public function add(){
+        return view('user.add');
+    }
+    public function store(Request $request)
+    {
+        $user=new User;
+        $user->name=$request->name;
+        $user->email=$request->email;
+        $user->password=bcrypt($request->password);
+        $user->save();
+        emotify('success', ' user successfully inserted');
+        return redirect('user/list');
+    }
+    public function delete($id)
+    {
+        $data=User::find($id)->delete();
+        return redirect()->back();
+    }
+    public function record(Request $request,$id)
+    {
+        $data['record']=Product::where('category_id',$id)->get();
+        return view('front.record',$data);
+    }
+    public function orderstore(Request $request)
+    {
+        $order=New Order();
+        $order->user_id=Auth::user()->id;
+        $order->alltotal=$request->alltotal;
+        $productName=$request->get('pname');
+        $productPrice=$request->get('price');
+        $order->save();
+        foreach($productName as $key=>$value) 
+        {
+            $productOrder=New ProductOrder();
+            $productOrder->pname=$value;
+            $productOrder->price=$productPrice[$key];
+            $productOrder->user_id=Auth::user()->id;
+            $productOrder->order_id=$order->id;
+            $productOrder->save();
+        }
+        return redirect()->back();
     }
 }

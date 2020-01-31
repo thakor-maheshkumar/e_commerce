@@ -58,7 +58,7 @@
                                                 <td>
                                                     <img src="{{URL::to('/')}}/images/{{$products->image}}" width="80">
                                                 </td>
-                                                <td>{{$products->status}}</td>
+                                                <td>{{str_replace('active','inactive',$products->status)}}</td>
                                                 <td>
                                                     <a href='{{url("product/edit/{$products->id}")}}' class="btn btn-success">Edit</a>
                                                     <a href='{{url("product/delete/{$products->id}")}}' class="btn btn-danger">Delete</a>
