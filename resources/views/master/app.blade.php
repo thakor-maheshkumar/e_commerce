@@ -82,15 +82,11 @@
         <script src="{{asset('')}}assets/libs/flatpickr/flatpickr.min.js"></script>
         <script src="{{asset('')}}assets/libs/jquery-knob/jquery.knob.min.js"></script>
         <script src="{{asset('')}}assets/libs/jquery-sparkline/jquery.sparkline.min.js"></script>
-        <script src="{{asset('')}}assets/libs/flot-charts/jquery.flot.js"></script>
-        <script src="{{asset('')}}assets/libs/flot-charts/jquery.flot.time.js"></script>
-        <script src="{{asset('')}}assets/libs/flot-charts/jquery.flot.tooltip.min.js"></script>
-        <script src="{{asset('')}}assets/libs/flot-charts/jquery.flot.selection.js"></script>
-        <script src="{{asset('')}}assets/libs/flot-charts/jquery.flot.crosshair.js"></script>
+       
+     
         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
         <!-- Dashboar 1 init js-->
-        <script src="{{asset('')}}assets/js/pages/dashboard-1.init.js"></script>
 
         <!-- App js-->
         <script src="{{asset('')}}assets/js/app.min.js"></script>

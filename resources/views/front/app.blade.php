@@ -87,7 +87,15 @@
             <a class="nav-link" href='{{url("category/record/{$categories->id}")}}'>{{$categories->name}}</a>
           </li>
           @endforeach
-        </ul>
+          @guest
+          <li style="color: white;margin-top:9px;margin-left: 15px"><a href="{{url('login')}}">Product Order</a></li>
+          </ul>
+          @endguest
+          @auth
+          <li style="color: white;margin-top:9px;margin-left: 15px"><a href="{{url('user/productOrder')}}">Product Order</a></li>
+          </ul>
+          @endauth
+       
 </div>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>

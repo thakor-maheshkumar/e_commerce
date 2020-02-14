@@ -51,6 +51,9 @@ Auth::routes();
 		Route::post('validations','HomeController@validations');
 /////	
 		Route::get('placeorder','OrderController@placeorder');
+		Route::get('product/order','OrderController@productOrder');
+		Route::get('user/productOrder','OrderController@userProductOrder');
+		Route::get('user/productOrderView/{id}','OrderController@userProductOrderView');
 		Route::get('bookpro','HomeController@bookpro');
 		Route::get('getcity','HomeController@getcity');
 		Route::get('getdate','HomeController@getdate');
@@ -70,6 +73,7 @@ Auth::routes();
 		Route::get('session/remove','SessionController@deleteSessionData');
 		Route::get('storedata/view','StoreController@storedata');
 		Route::post('storedata/store','StoreController@store');
+		Route::get('join/userData','JoinController@userData');
 
 
 ////For Product
@@ -85,5 +89,9 @@ Route::get('get/categorydata/{id}','CategoryController@getcategorydata');
 /////Jqyery And Ajax/////////
 
 Route::get('student','StudentController@index')->middleware('student');
+Route::get('c1','OopController@c1class');
 
-
+Route::get('manager/list','ManagerController@index');
+Route::post('manager/store','ManagerController@store');
+Route::get('manager/getdata','ManagerController@getdata');
+Route::get('manager/edit','ManagerController@editdata');

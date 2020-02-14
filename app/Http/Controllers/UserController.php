@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
 use App\User;
 use App\Product;
@@ -11,6 +10,7 @@ use App\Address;
 use App\Order;
 use Auth;
 use App\ProductOrder;
+use DB;
 //use Gloudemans\Shoppingcart\Facades\Cart;
 class UserController extends Controller
 {
@@ -119,7 +119,8 @@ class UserController extends Controller
         $data['cartItems']=Cart::getContent();
         return view('user.showdetail',$data);
     }
-    public function add(){
+    public function add()
+    {
         return view('user.add');
     }
     public function store(Request $request)
@@ -144,21 +145,55 @@ class UserController extends Controller
     }
     public function orderstore(Request $request)
     {
+        //$image=$request->input('image');
         $order=New Order();
         $order->user_id=Auth::user()->id;
         $order->alltotal=$request->alltotal;
+        //$dataAll=$request->all();
         $productName=$request->get('pname');
         $productPrice=$request->get('price');
+        $productQuantity=$request->get('quantity');
+
+        $product_id=$request->get('id');
+        //dd($product_id);
+        $image=$request->get('image');
+        //dd($image);
+        //dd($productQuantity);
         $order->save();
-        foreach($productName as $key=>$value) 
+        foreach($productName  as $key=>$input) 
         {
-            $productOrder=New ProductOrder();
-            $productOrder->pname=$value;
-            $productOrder->price=$productPrice[$key];
-            $productOrder->user_id=Auth::user()->id;
-            $productOrder->order_id=$order->id;
-            $productOrder->save();
+            $productOrder=New ProductOrder;
+            $productOrder->product_id=isset($product_id[$key])? $product_id[$key]:'';
+            $productOrder->pname=isset($productName[$key])? $productName[$key]:'';
+            $productOrder->price=isset($productPrice[$key]) ?$productPrice[$key]:'';
+            //$productOrder->user_id=$order->user_id;
+            $productOrder->quantity=isset($productQuantity[$key])? $productQuantity[$key]:'';
+            $productOrder->image=isset($image[$key])? $image[$key]:'';
+           // $productOrder->product_id=isset($product_id)
         }
+        $rows=[];
+        foreach ($productName as $key => $input) {
+            array_push($rows,[
+                'image'=>isset($image[$key])? $image[$key]:'',
+                'price'=>isset($productPrice[$key])? $productPrice[$key]:'',
+                'quantity'=>isset($productQuantity[$key]) ?$productQuantity[$key]:'',
+                'pname'=>isset($productName[$key])? $productName[$key]:'',
+                'user_id'=>Auth::user()->id,
+                'order_id'=>$order->id,
+                'product_id'=>isset($product_id[$key])? $product_id[$key]:'',
+            
+            ]);
+        }
+        ProductOrder::insert($rows);
+        //$pp=ProductOrder::all();
+        // foreach($productData as $products)
+        // {
+            $product=Product::whereIn('id',$product_id)->decrement('quantity',$productOrder->quantity);
+            //dd($product);
+
+            //$product->decrement('quantity',$productOrder->quantity);
+        //$users=DB::table('products')->whereIn('id',$product_id)->decrement('quantity',$productOrder->quantity);
+        //}    
         return redirect()->back();
     }
 }

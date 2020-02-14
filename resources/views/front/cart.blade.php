@@ -51,12 +51,12 @@
                         <?php $count =1;?>
                         @foreach($cartItems as $cartItem)
                         {{ $cartItem->attributes->items }}
-                            <form method="post" action="{{url('order/store')}}">
+                            <form method="post" action="{{url('order/store')}}" enctype="multipart/form-data">
                                 @csrf
-                            <tbody>
                             <tr>
                                 <td class="cart_product">
-                                    <img src="{{URL::to('/')}}/images/{{$cartItem->image}}" class="img-responsive" width="250">
+                                <img src="{{URL::to('/')}}/images/{{$cartItem->image}}" class="img-responsive" width="250">
+                                <input type="hidden" name="image[]" value="{{$cartItem->image}}">
                                 </td>
                                 <td class="cart_description">
                                 <!--<a href="{{url('/product_detail')}}/{{$cartItem->id}}">heang</a>
@@ -65,6 +65,7 @@
                                     <h4><input type="text" name="pname[]" value="{{$cartItem->name}}"></h4>
                                 </td>
                                 <input type="hidden" name="user_id" id="user_id">
+                                <input type="hidden" name="id[]" id="id" value="{{$cartItem->id}}">
                                 <td class="cart_price"> 
                                     <!--<p>{{$cartItem->price}}</p> -->
                                     <input type="text" name="price[]" value="{{$cartItem->price}}" class="price" id="price">
@@ -76,13 +77,13 @@
                                       onclick="addQuantity('ax{{$cartItem->id}}')"></i> 
                                     <button id="addme" class="addme" onclick="addQuantity('ax{{$cartItem->id}}')">add</button>-->
                                     <!--</div>-->
-                                    <select class="form-control select" id="select{{$cartItem->id}}" data-cart-id="{{$cartItem->id}}" onchange="show_modal('{{$cartItem->id}}')">
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
+                                    <select class="form-control select" id="select{{$cartItem->id}}" data-cart-id="{{$cartItem->id}}" onchange="show_modal('{{$cartItem->id}}')"
+                                    name="quantity[]">
+                                        <option value=1>1</option>
+                                        <option value=2>2</option>
+                                        <option value=3>3</option>
                                         <option value="quantity" id="quantity">quantity</option>
                                     </select>
-                                    <button id="hi">Hi</button>
                                 </td>
                                 <td class="cart_total">
                             <input type="text" name="" class="subtotal" id="subtotal{{$cartItem->id}}" value="{{$cartItem->price}}">
@@ -96,7 +97,7 @@
                             </tr>
                             <?php $count++;?>
 
-                            </tbody>
+                        
                         @endforeach
                         @guest
                             <tfoot>
@@ -111,7 +112,7 @@
                         <tfoot>
                             <tr><td><input type="text" name="alltotal" class="alltotal" id="alltotal"style="width: 50px;border: hidden;background-color:red;color: white"></td></tr>
                             <tr>
-                                <td><button  style="height: 40px;background-color:red;border: 1px solid;border-radius: 10px"><p style="color: white;margin-bottom: 0px;padding: 5px">Proccesss To Pay </p></td></a></button>
+                                <td><button type="submit" style="height: 40px;background-color:red;border: 1px solid;border-radius: 10px"><p style="color: white;margin-bottom: 0px;padding: 5px">Proccesss To Pay </p></td></a></button>
                             </tr>
                         </tfoot>
                         @endauth

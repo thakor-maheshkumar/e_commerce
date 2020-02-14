@@ -105,6 +105,9 @@
 				type:'get',
 				url:'{{URL("getDatalist")}}',
 				dataType:'json',
+				data:{
+					"_token": "{{ csrf_token() }}",
+				}
 				success:function(data){
 					console.log(data);
 					var tb='';

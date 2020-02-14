@@ -37,6 +37,12 @@
                                 </a>  
                             </li>
                             <li>
+                                <a href="{{url('product/order')}}">
+                                    <i class="fe-users"></i>
+                                    <span> Product Order </span>
+                                </a>  
+                            </li>
+                            <li>
                                 <a href="{{url('ajaxrequest')}}">
                                     <i class="fe-users"></i>
                                     <span> Jquery </span>
@@ -84,6 +90,19 @@
                                     <span> Store All Data </span>
                                 </a>  
                             </li>
+                             <li>
+                                <a href="{{url('manager/list')}}">
+                                    <i class="fe-users"></i>
+                                    <span>Manager List</span>
+                                </a>  
+                            </li>
+                            <li>
+                                <a href="{{url('join/userData')}}">
+                                    <i class="fe-users"></i>
+                                    <span>Join</span>
+                                </a>  
+                            </li>
+
                         </ul>
 
                     </div>

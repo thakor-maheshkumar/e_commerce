@@ -11,5 +11,8 @@ class ProductOrder extends Model
         'pname', 'price',
     ];
 
-    
+    public function order()
+    {
+    	return $this->belongsTo('App\Order');
+    }
 }
